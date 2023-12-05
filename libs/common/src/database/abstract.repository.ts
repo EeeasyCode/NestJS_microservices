@@ -33,7 +33,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this.model.findOne(filterQuery, {}, { lean: true });
+    const document = await this.findOne(filterQuery);
 
     if (!document) {
       this.logger.warn('Document not found with filterQuery', filterQuery);
@@ -75,9 +75,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 
-  async startTransaction() {
-    const session = await this.connection.startSession();
-    session.startTransaction();
-    return session;
-  }
+  // async startTransaction() {
+  //   const session = await this.connection.startSession();
+  //   session.startTransaction();
+  //   return session;
+  // }
 }
